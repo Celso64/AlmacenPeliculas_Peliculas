@@ -9,7 +9,7 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor
-public class Director {
+public class Actor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,6 +18,6 @@ public class Director {
 
     private String apellido;
 
-    @ManyToMany(mappedBy = "directores")
+    @ManyToMany(mappedBy = "actores")
     private Set<Pelicula> peliculas;
 }

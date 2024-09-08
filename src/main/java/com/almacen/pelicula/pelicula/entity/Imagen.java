@@ -1,23 +1,25 @@
 package com.almacen.pelicula.pelicula.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Set;
 
 @Entity
 @Data
 @NoArgsConstructor
-public class Director {
+@AllArgsConstructor
+@Builder
+public class Imagen {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nombre;
+    private String name;
 
-    private String apellido;
+    private String type;
 
-    @ManyToMany(mappedBy = "directores")
-    private Set<Pelicula> peliculas;
+    @Column(name = "file_path")
+    private String filePath;
 }

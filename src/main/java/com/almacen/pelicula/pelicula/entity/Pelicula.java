@@ -6,7 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -24,19 +27,40 @@ public class Pelicula {
 
     private Double precio;
 
+    @Column(name = "fecha_salida")
+    private LocalDate fechaSalida;
+
     @Enumerated(EnumType.ORDINAL)
     private CondicionPelicula condicion;
 
     @Enumerated(EnumType.STRING)
     private GeneroPelicula genero;
 
+
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
+    @JoinColumn(name = "imagen_pequena_id", referencedColumnName = "id")
+    private Imagen imagenPequena;
+
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
+    @JoinColumn(name = "imagen_grande_id", referencedColumnName = "id")
+    private Imagen imagenGrande;
+
+
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
-            name = "pelicula_director", // Nombre de la tabla intermedia
-            joinColumns = @JoinColumn(name = "pelicula_id"), // Clave foránea para Pelicula
-            inverseJoinColumns = @JoinColumn(name = "director_id") // Clave foránea para Director
+            name = "pelicula_director",
+            joinColumns = @JoinColumn(name = "pelicula_id"),
+            inverseJoinColumns = @JoinColumn(name = "director_id")
     )
     private Set<Director> directores;
+
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(
+            name = "pelicula_actor",
+            joinColumns = @JoinColumn(name = "pelicula_id"),
+            inverseJoinColumns = @JoinColumn(name = "actor_id")
+    )
+    private Set<Actor> actores;
 
     @OneToMany(mappedBy = "pelicula", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Ranking> rankings;

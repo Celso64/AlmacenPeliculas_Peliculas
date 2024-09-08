@@ -7,6 +7,7 @@ import com.almacen.pelicula.pelicula.exception.ResourceNotFoundException;
 import com.almacen.pelicula.pelicula.service.DirectorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -31,23 +32,17 @@ public class DirectorController {
 
     @PostMapping
     public ResponseEntity<DirectorOut> crearDirector(@Valid @RequestBody DirectorCreate director){
-        return ResponseEntity.ok(directores.crearDirector(director));
+        return ResponseEntity.status(HttpStatus.CREATED).body(directores.crearDirector(director));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<DirectorOut> updateDirector(@PathVariable("id") Long id,
-                                      @Valid @RequestBody DirectorUpdate director) throws ResourceNotFoundException {
-
-        DirectorOut res = directores.update(id, director);
-
-        return ResponseEntity.ok(res);
+                                      @Valid @RequestBody DirectorUpdate director) {
+        return ResponseEntity.ok(directores.update(id, director));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> borrarDirector(@PathVariable("id") Long id){
-        if(directores.borrarDirector(id)){
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+        return directores.borrarDirector(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

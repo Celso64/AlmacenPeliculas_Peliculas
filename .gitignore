@@ -61,3 +61,8 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+.env
+./file_path_images_*
+./pgdata
+./imagen/*

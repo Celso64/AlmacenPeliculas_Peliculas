@@ -18,8 +18,8 @@ public class DirectorService {
     private DirectorRepository directores;
 
     public DirectorOut crearDirector(DirectorCreate director){
-        Director d = director.toModel();
-        return DirectorOut.fromModel(directores.save(d));
+        Director nuevoDirector = director.toModel();
+        return DirectorOut.fromModel(directores.save(nuevoDirector));
     }
 
     public List<DirectorOut> listar(){
@@ -33,7 +33,7 @@ public class DirectorService {
         return DirectorOut.fromModel(directorExistente);
     }
 
-    public DirectorOut update(Long idDirector, DirectorUpdate nuevosDatos) throws ResourceNotFoundException {
+    public DirectorOut update(Long idDirector, DirectorUpdate nuevosDatos) {
 
         Director directorExistente = directores.findById(idDirector)
                 .orElseThrow(() -> new ResourceNotFoundException("Director no encontrado"));

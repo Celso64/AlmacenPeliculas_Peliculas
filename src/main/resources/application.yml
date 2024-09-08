@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: pelicula
+  datasource:
+    url: jdbc:postgresql://${spring.datasource.host}:${spring.datasource.port}/${spring.datasource.db-name}
+    username: user
+    password: "1111"
+    host: localhost
+    port: 5002
+    db-name: pelicula_db
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+application:
+  title: Almacen de Peliculas
+  ms_name: Peliculas
+  version: Sprint 1
+  author: Carlos Farra
+  lastUpdate: Sabado 7 de Septiembre 2024
+
+# Variables para manejar el tamaño de las paginas
+tam_page_pelicula: 10
+
+# Variables de Imagen
+file_path_images_p: ./imagen/pequenas/
+file_path_images_g: ./imagen/grandes/
