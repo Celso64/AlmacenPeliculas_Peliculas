@@ -14,7 +14,7 @@ public record PeliculaMinOut(Long id, String titulo, String fechaSalida, String 
     public static PeliculaMinOut fromModel(Pelicula p){
 
         String precio = formatoDecimal.format(p.getPrecio());
-        String fecha = p.getFechaSalida().format(Fecha.formato);
+        String fecha = p.getFechaSalida().format(Fecha.FORMATO_DEFAULT.formato());
 
         var directores = p.getDirectores().stream()
                 .map(DirectorOut::fromModel)

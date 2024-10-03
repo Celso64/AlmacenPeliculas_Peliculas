@@ -3,7 +3,7 @@ package com.almacen.pelicula.pelicula.controller;
 import com.almacen.pelicula.pelicula.dto.in.PeliculaCreate;
 import com.almacen.pelicula.pelicula.dto.out.PeliculaMinOut;
 import com.almacen.pelicula.pelicula.dto.out.PeliculaOut;
-import com.almacen.pelicula.pelicula.service.PeliculaService;
+import com.almacen.pelicula.pelicula.service.impl.PeliculaServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,7 +20,7 @@ import java.util.Map;
 public class PeliculaController {
 
     @Autowired
-    private PeliculaService peliculas;
+    private PeliculaServiceImpl peliculas;
 
     @GetMapping
     @PreAuthorize("hasRole('read_pelicula')")
