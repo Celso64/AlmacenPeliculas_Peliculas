@@ -1,11 +1,10 @@
 package com.almacen.pelicula.pelicula.service;
 
+import com.almacen.pelicula.exception.ResourceNotFoundException;
 import com.almacen.pelicula.pelicula.dto.in.PeliculaCreate;
 import com.almacen.pelicula.pelicula.dto.out.PeliculaMinOut;
 import com.almacen.pelicula.pelicula.dto.out.PeliculaOut;
-import com.almacen.pelicula.pelicula.entity.Imagen;
 import com.almacen.pelicula.pelicula.entity.Pelicula;
-import com.almacen.pelicula.pelicula.exception.ResourceNotFoundException;
 import com.almacen.pelicula.pelicula.repository.ActorRepository;
 import com.almacen.pelicula.pelicula.repository.DirectorRepository;
 import com.almacen.pelicula.pelicula.repository.PeliculaRepository;
@@ -44,16 +43,16 @@ public class PeliculaService {
     private Integer tamanoPagina;
 
     public PeliculaOut crearPelicula(PeliculaCreate pelicula) throws IOException {
-        Pelicula p = pelicula.toModel(directores,actores);
+        Pelicula p = pelicula.toModel(directores, actores);
         return PeliculaOut.fromModel(peliculas.save(p));
     }
 
-    public Page<PeliculaMinOut> listPeliculas(Integer pagina){
+    public Page<PeliculaMinOut> listPeliculas(Integer pagina) {
 
         Page<Pelicula> paginaPeliculas = peliculas.findAll(PageRequest.of(pagina, tamanoPagina));
 
         paginaPeliculas.getContent().forEach(p -> p.getDirectores().forEach(Object::toString));
-        paginaPeliculas.getContent().forEach(p -> System.out.println("Actores (SERVICE): "+p.getActores().size()));
+        paginaPeliculas.getContent().forEach(p -> System.out.println("Actores (SERVICE): " + p.getActores().size()));
 
         List<PeliculaMinOut> peliculasOut = paginaPeliculas
                 .getContent()
@@ -64,7 +63,7 @@ public class PeliculaService {
         return new PageImpl<>(peliculasOut, PageRequest.of(pagina, tamanoPagina), paginaPeliculas.getTotalElements());
     }
 
-    public PeliculaOut findByID(Long idPelicula){
+    public PeliculaOut findByID(Long idPelicula) {
         Pelicula p = peliculas.findById(idPelicula).orElseThrow(() -> new ResourceNotFoundException("La pelicula no existe."));
         p.getActores().forEach(Object::toString);
         return PeliculaOut.fromModel(p);

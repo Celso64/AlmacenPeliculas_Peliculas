@@ -1,10 +1,10 @@
 package com.almacen.pelicula.pelicula.service;
 
+import com.almacen.pelicula.exception.ResourceNotFoundException;
 import com.almacen.pelicula.pelicula.dto.in.ImagenCreate;
 import com.almacen.pelicula.pelicula.dto.out.ImagenOut;
 import com.almacen.pelicula.pelicula.entity.Imagen;
 import com.almacen.pelicula.pelicula.entity.Pelicula;
-import com.almacen.pelicula.pelicula.exception.ResourceNotFoundException;
 import com.almacen.pelicula.pelicula.repository.ImagenRepository;
 import com.almacen.pelicula.pelicula.repository.PeliculaRepository;
 import com.almacen.pelicula.pelicula.util.ImageUtils;
@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -39,23 +40,23 @@ public class ImagenService {
 
         Pelicula p = peliculas.findById(idPelicula).orElseThrow(() -> new ResourceNotFoundException("La pelicula no existe."));
 
-       imagenes.imagenGrande().ifPresent(img -> {
-           try {
-               p.setImagenGrande(guardarImagen(img, filePathGrande));
-           } catch (IOException e) {
-               throw new RuntimeException(e);
-           }
-       });
+        imagenes.imagenGrande().ifPresent(img -> {
+            try {
+                p.setImagenGrande(guardarImagen(img, filePathGrande));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
-       imagenes.imagenPequena().ifPresent(img -> {
-           try {
-               p.setImagenPequena(guardarImagen(img, filePathPequeno));
-           } catch (IOException e) {
-               throw new RuntimeException(e);
-           }
-       });
+        imagenes.imagenPequena().ifPresent(img -> {
+            try {
+                p.setImagenPequena(guardarImagen(img, filePathPequeno));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
-       peliculas.save(p);
+        peliculas.save(p);
         return true;
     }
 
@@ -73,7 +74,7 @@ public class ImagenService {
         if (!directorio.exists()) directorio.mkdirs();
 
 
-        Files.write(Paths.get(direccion) ,imagen.getBytes());
+        Files.write(Paths.get(direccion), imagen.getBytes());
         return nuevaImagen;
     }
 

@@ -16,13 +16,36 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          issuer-uri: https://k8s-lia.unrn.edu.ar/keycloak/realms/videoclub02
+          jwk-set-uri: https://k8s-lia.unrn.edu.ar/keycloak/realms/videoclub02/protocol/openid-connect/certs
+  jmx:
+    enabled: true
+
+# Enable Actuator endpoints in application.yml
+management:
+  endpoints:
+    web:
+      base-path: "/management"
+      exposure:
+        include: "*"
+        exclude: "beans"
+    jmx:
+      exposure:
+        include: "*"
+
+
+
 
 application:
   title: Almacen de Peliculas
   ms_name: Peliculas
-  version: Sprint 1
+  version: Sprint 2
   author: Carlos Farra
-  lastUpdate: Sabado 7 de Septiembre 2024
+  lastUpdate: Sabado 21 de Septiembre 2024
 
 # Variables para manejar el tamaño de las paginas
 tam_page_pelicula: 10

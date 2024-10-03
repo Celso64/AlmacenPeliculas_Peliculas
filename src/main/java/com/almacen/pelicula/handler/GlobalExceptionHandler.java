@@ -1,6 +1,6 @@
-package com.almacen.pelicula.pelicula.handler;
+package com.almacen.pelicula.handler;
 
-import com.almacen.pelicula.pelicula.exception.ResourceNotFoundException;
+import com.almacen.pelicula.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

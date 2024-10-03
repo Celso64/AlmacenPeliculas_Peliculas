@@ -1,10 +1,10 @@
 package com.almacen.pelicula.pelicula.controller;
 
+import com.almacen.pelicula.exception.ResourceNotFoundException;
 import com.almacen.pelicula.pelicula.dto.DirectorTest;
 import com.almacen.pelicula.pelicula.dto.in.DirectorCreate;
 import com.almacen.pelicula.pelicula.dto.in.DirectorUpdate;
 import com.almacen.pelicula.pelicula.dto.out.DirectorOut;
-import com.almacen.pelicula.pelicula.exception.ResourceNotFoundException;
 import com.almacen.pelicula.pelicula.service.DirectorService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -19,7 +19,6 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -41,6 +40,7 @@ public class DirectorControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/director"))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].id").value(directorOut.id()))
                 .andExpect(jsonPath("$[0].nombre").value(directorOut.nombre()))
                 .andExpect(jsonPath("$[0].apellido").value(directorOut.apellido()));
@@ -59,7 +59,6 @@ public class DirectorControllerTest {
 
     @Test
     public void buscarDirectorNoExistente() throws Exception {
-        DirectorOut directorOut = new DirectorOut(1L, "Tim", "Burton");
         when(directorService.buscarPorID(2L)).thenThrow(new ResourceNotFoundException("El director no existe."));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/director/2"))
@@ -130,8 +129,6 @@ public class DirectorControllerTest {
 
     @Test
     public void borrarDirectorBien() throws Exception {
-        DirectorOut directorOut = new DirectorOut(1L, "Tim", "Burton");
-
         when(directorService.borrarDirector(1L)).thenReturn(true);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/director/1"))
@@ -140,8 +137,6 @@ public class DirectorControllerTest {
 
     @Test
     public void borrarDirectorInexistente() throws Exception {
-        DirectorOut directorOut = new DirectorOut(1L, "Tim", "Burton");
-
         when(directorService.borrarDirector(1L)).thenReturn(true);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/director/2"))
