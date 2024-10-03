@@ -4,7 +4,10 @@ import com.almacen.pelicula.pelicula.dto.in.ActorCreate;
 import com.almacen.pelicula.pelicula.dto.in.ActorUpdate;
 import com.almacen.pelicula.pelicula.dto.out.ActorOut;
 import com.almacen.pelicula.pelicula.service.ActorService;
+import com.almacen.pelicula.pelicula.service.impl.ActorServiceImpl;
 import jakarta.validation.Valid;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,10 +17,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/actor")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ActorController {
 
     @Autowired
-    private ActorService actores;
+    ActorService actores;
 
     @GetMapping
     @PreAuthorize("hasRole('read_pelicula')")
