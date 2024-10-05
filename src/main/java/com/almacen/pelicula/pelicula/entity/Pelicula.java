@@ -12,7 +12,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder//a
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Pelicula {
 
