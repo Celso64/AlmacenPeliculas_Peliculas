@@ -66,5 +66,7 @@ build/
 ./file_path_images_*
 ./pgdata
 ./imagen/*
+./data
+./data/*
 
 ./minio_data
