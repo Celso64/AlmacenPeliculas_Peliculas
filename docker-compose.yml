@@ -1,3 +1,4 @@
+# Definir las variables entre {} en un archivo ".env"
 services:
   pelicula_db:
     image: postgres
@@ -20,10 +21,19 @@ services:
     depends_on:
       - pelicula_db
 
-  prometheus:
-    image: prom/prometheus:latest
-    container_name: prometheus
+  gateway:
+    image: hmunoz79/apigateway:1.5
+    extra_hosts:
+      - "host.docker.internal:${IP_HOST}" # Mi IP
     ports:
-      - "9090:9090"
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - "9500:9500" # Desde el FrontEnd
+    environment:
+      SPRING_SERVER_PORT: 9500
+      SPRING_CLOUD_GATEWAY_ROUTES[0]_URI: http://host.docker.internal:8080
+      SPRING_CLOUD_GATEWAY_ROUTES[0]_ID: service-almacen # MS Peliculas
+      SPRING_CLOUD_GATEWAY_ROUTES[0]_PREDICATES[0]: Path= /almacen/**
+      SPRING_CLOUD_GATEWAY_ROUTES[0]_FILTERS[0]: StripPrefix=1
+      SPRING_CLOUD_GATEWAY_ROUTES[1]_URI: http://host.docker.internal:8081
+      SPRING_CLOUD_GATEWAY_ROUTES[1]_ID: service-transacciones # MS Ventas
+      SPRING_CLOUD_GATEWAY_ROUTES[1]_PREDICATES[0]: Path= /gateway/**
+      SPRING_CLOUD_GATEWAY_ROUTES[1]_FILTERS[0]: StripPrefix=1

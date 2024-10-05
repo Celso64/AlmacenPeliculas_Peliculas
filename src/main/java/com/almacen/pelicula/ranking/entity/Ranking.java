@@ -22,18 +22,19 @@ public class Ranking {
     @Column(length = 255)
     String comentario;
 
-    @OneToMany
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario")
     Usuario usuario;
 
     @ManyToOne
     @JoinColumn(name = "pelicula_id")
     Pelicula pelicula;
 
-    public String getUsername(){
+    public String getUsername() {
         return this.usuario.getUsername();
     }
 
-    public String getTituloPelicula(){
+    public String getTituloPelicula() {
         return this.pelicula.getTitulo();
     }
 }

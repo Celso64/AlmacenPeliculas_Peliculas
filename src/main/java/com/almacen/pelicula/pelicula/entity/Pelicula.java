@@ -2,12 +2,8 @@ package com.almacen.pelicula.pelicula.entity;
 
 import com.almacen.pelicula.ranking.entity.Ranking;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -17,52 +13,53 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Pelicula {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
-    private String titulo, sinopsis;
+    String titulo, sinopsis;
 
-    private Double precio;
+    Double precio;
 
     @Column(name = "fecha_salida")
-    private LocalDate fechaSalida;
+    LocalDate fechaSalida;
 
     @Enumerated(EnumType.ORDINAL)
-    private CondicionPelicula condicion;
+    CondicionPelicula condicion;
 
     @Enumerated(EnumType.STRING)
-    private GeneroPelicula genero;
+    GeneroPelicula genero;
 
 
     @OneToOne(cascade = CascadeType.ALL, optional = true)
     @JoinColumn(name = "imagen_pequena_id", referencedColumnName = "id")
-    private Imagen imagenPequena;
+    Imagen imagenPequena;
 
     @OneToOne(cascade = CascadeType.ALL, optional = true)
     @JoinColumn(name = "imagen_grande_id", referencedColumnName = "id")
-    private Imagen imagenGrande;
+    Imagen imagenGrande;
 
 
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "pelicula_director",
             joinColumns = @JoinColumn(name = "pelicula_id"),
             inverseJoinColumns = @JoinColumn(name = "director_id")
     )
-    private Set<Director> directores;
+    Set<Director> directores;
 
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "pelicula_actor",
             joinColumns = @JoinColumn(name = "pelicula_id"),
             inverseJoinColumns = @JoinColumn(name = "actor_id")
     )
-    private Set<Actor> actores;
+    Set<Actor> actores;
 
     @OneToMany(mappedBy = "pelicula", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Ranking> rankings;
+    Set<Ranking> rankings;
 
 }

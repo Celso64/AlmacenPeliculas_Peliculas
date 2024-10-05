@@ -19,13 +19,13 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name = "id_usuario",unique = true)
+    @Column(name = "id_usuario", unique = true)
     Long idUser;
 
     @Column(unique = true)
     String username;
 
-    @ManyToOne
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     Set<Ranking> resenas;
 
 }
