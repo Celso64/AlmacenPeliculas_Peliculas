@@ -8,7 +8,6 @@ import com.almacen.pelicula.pelicula.entity.Pelicula;
 import com.almacen.pelicula.pelicula.repository.ActorRepository;
 import com.almacen.pelicula.pelicula.repository.DirectorRepository;
 import com.almacen.pelicula.pelicula.repository.PeliculaRepository;
-import com.almacen.pelicula.pelicula.service.ImagenService;
 import com.almacen.pelicula.pelicula.service.PeliculaService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -36,7 +35,7 @@ public class PeliculaServiceImpl implements PeliculaService {
     ActorRepository actores;
 
     @Autowired
-    ImagenService imagenes;
+    ImagenServiceImpl imagenes;
 
     @Value("file_path_images_p")
     String filePathPequeno;

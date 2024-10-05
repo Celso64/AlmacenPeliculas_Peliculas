@@ -3,8 +3,10 @@ package com.almacen.pelicula.pelicula.controller;
 import com.almacen.pelicula.pelicula.dto.in.PeliculaCreate;
 import com.almacen.pelicula.pelicula.dto.out.PeliculaMinOut;
 import com.almacen.pelicula.pelicula.dto.out.PeliculaOut;
-import com.almacen.pelicula.pelicula.service.impl.PeliculaServiceImpl;
+import com.almacen.pelicula.pelicula.service.PeliculaService;
 import jakarta.validation.Valid;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +19,15 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/pelicula")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PeliculaController {
 
     @Autowired
-    private PeliculaServiceImpl peliculas;
+    PeliculaService peliculas;
 
     @GetMapping
     @PreAuthorize("hasRole('read_pelicula')")
-    public Map<String, Object> listarPeliculas(@RequestParam(defaultValue = "0") int pagina){
+    public Map<String, Object> listarPeliculas(@RequestParam(defaultValue = "0") int pagina) {
         Page<PeliculaMinOut> p = peliculas.listPeliculas(pagina);
 
         Map<String, Object> response = new HashMap<>();
@@ -38,7 +41,7 @@ public class PeliculaController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('read_pelicula')")
-    public ResponseEntity<PeliculaOut> findByID(@PathVariable("id") Long id){
+    public ResponseEntity<PeliculaOut> findByID(@PathVariable("id") Long id) {
         return ResponseEntity.ok(peliculas.findByID(id));
     }
 

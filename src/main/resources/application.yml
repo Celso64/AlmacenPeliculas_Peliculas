@@ -37,8 +37,16 @@ management:
       exposure:
         include: "*"
 
-
-
+cloud:
+  aws:
+    s3:
+      endpoint: http://localhost:9000
+      bucket: my-bucket
+    credentials:
+      access-key: admin
+      secret-key: admin
+    region:
+      static: us-east-1
 
 application:
   title: Almacen de Peliculas
