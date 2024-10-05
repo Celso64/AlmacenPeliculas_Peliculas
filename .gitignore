@@ -70,3 +70,5 @@ build/
 ./data/*
 
 ./minio_data
+./minio
+./minio/*
