@@ -4,7 +4,7 @@ import com.almacen.pelicula.exception.ResourceNotFoundException;
 import com.almacen.pelicula.pelicula.dto.DirectorTest;
 import com.almacen.pelicula.pelicula.dto.in.ActorCreate;
 import com.almacen.pelicula.pelicula.dto.out.ActorOut;
-import com.almacen.pelicula.pelicula.service.ActorService;
+import com.almacen.pelicula.pelicula.service.impl.ActorServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -27,7 +27,7 @@ public class ActorControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private ActorService actorService;
+    private ActorServiceImpl actorService;
 
     // -------- Test GET -------------
 

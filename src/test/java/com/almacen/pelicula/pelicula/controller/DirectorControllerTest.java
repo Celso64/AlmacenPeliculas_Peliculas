@@ -5,7 +5,7 @@ import com.almacen.pelicula.pelicula.dto.DirectorTest;
 import com.almacen.pelicula.pelicula.dto.in.DirectorCreate;
 import com.almacen.pelicula.pelicula.dto.in.DirectorUpdate;
 import com.almacen.pelicula.pelicula.dto.out.DirectorOut;
-import com.almacen.pelicula.pelicula.service.DirectorService;
+import com.almacen.pelicula.pelicula.service.impl.DirectorServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class DirectorControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private DirectorService directorService;
+    private DirectorServiceImpl directorService;
 
     // -------- Test GET -------------
 
