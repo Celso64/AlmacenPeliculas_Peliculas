@@ -12,7 +12,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder//a
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Pelicula {
 
@@ -34,11 +34,11 @@ public class Pelicula {
     GeneroPelicula genero;
 
 
-    @OneToOne(cascade = CascadeType.ALL, optional = true)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "imagen_pequena_id", referencedColumnName = "id")
     Imagen imagenPequena;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = true)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "imagen_grande_id", referencedColumnName = "id")
     Imagen imagenGrande;
 
