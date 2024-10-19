@@ -7,16 +7,19 @@ import com.almacen.pelicula.pelicula.dto.out.ActorOut;
 import com.almacen.pelicula.pelicula.entity.Actor;
 import com.almacen.pelicula.pelicula.repository.ActorRepository;
 import com.almacen.pelicula.pelicula.service.ActorService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
 public class ActorServiceImpl implements ActorService {
 
-    @Autowired
-    private ActorRepository actores;
+    ActorRepository actores;
 
     @Override
     public ActorOut crearActor(ActorCreate actor) {

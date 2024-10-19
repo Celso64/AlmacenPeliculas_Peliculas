@@ -4,14 +4,17 @@ import com.almacen.pelicula.exception.ResourceNotFoundException;
 import com.almacen.pelicula.pelicula.dto.in.PeliculaCreate;
 import com.almacen.pelicula.pelicula.dto.out.PeliculaMinOut;
 import com.almacen.pelicula.pelicula.dto.out.PeliculaOut;
+import com.almacen.pelicula.pelicula.entity.Imagen;
 import com.almacen.pelicula.pelicula.entity.Pelicula;
 import com.almacen.pelicula.pelicula.repository.ActorRepository;
 import com.almacen.pelicula.pelicula.repository.DirectorRepository;
+import com.almacen.pelicula.pelicula.repository.ImagenRepository;
 import com.almacen.pelicula.pelicula.repository.PeliculaRepository;
 import com.almacen.pelicula.pelicula.service.PeliculaService;
+import com.almacen.pelicula.pelicula.service.TamanoImagen;
 import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -20,30 +23,22 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public class PeliculaServiceImpl implements PeliculaService {
 
-    @Autowired
-    PeliculaRepository peliculas;
+    final PeliculaRepository peliculas;
 
-    @Autowired
-    DirectorRepository directores;
+    final DirectorRepository directores;
 
-    @Autowired
-    ActorRepository actores;
+    final ActorRepository actores;
 
-    @Autowired
-    ImagenServiceImpl imagenes;
+    final ImagenRepository imagenes;
 
-    @Value("file_path_images_p")
-    String filePathPequeno;
-
-    @Value("file_path_images_g")
-    String filePathGrande;
-
-    @Value("${tam_page_pelicula}")
+    @Value("${page_tam.pelicula}")
     Integer tamanoPagina;
 
     @Override
@@ -74,5 +69,12 @@ public class PeliculaServiceImpl implements PeliculaService {
         Pelicula p = peliculas.findById(idPelicula).orElseThrow(() -> new ResourceNotFoundException("La pelicula no existe."));
         p.getActores().forEach(Object::toString);
         return PeliculaOut.fromModel(p);
+    }
+
+    @Override
+    public Optional<Imagen> recuperarImagen(Long idPelicula, TamanoImagen tamanoImagen) {
+        return (tamanoImagen.equals(TamanoImagen.LARGE))
+                ? imagenes.findGrandePorIDPelicula(idPelicula)
+                : imagenes.findPequenaPorIDPelicula(idPelicula);
     }
 }

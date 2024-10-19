@@ -7,16 +7,19 @@ import com.almacen.pelicula.pelicula.dto.out.DirectorOut;
 import com.almacen.pelicula.pelicula.entity.Director;
 import com.almacen.pelicula.pelicula.repository.DirectorRepository;
 import com.almacen.pelicula.pelicula.service.DirectorService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
 public class DirectorServiceImpl implements DirectorService {
 
-    @Autowired
-    private DirectorRepository directores;
+    DirectorRepository directores;
 
     @Override
     public DirectorOut crearDirector(DirectorCreate director) {

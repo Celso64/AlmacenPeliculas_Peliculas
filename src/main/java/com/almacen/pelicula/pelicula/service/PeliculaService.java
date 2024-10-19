@@ -4,9 +4,11 @@ import com.almacen.pelicula.exception.ResourceNotFoundException;
 import com.almacen.pelicula.pelicula.dto.in.PeliculaCreate;
 import com.almacen.pelicula.pelicula.dto.out.PeliculaMinOut;
 import com.almacen.pelicula.pelicula.dto.out.PeliculaOut;
+import com.almacen.pelicula.pelicula.entity.Imagen;
 import org.springframework.data.domain.Page;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public interface PeliculaService {
 
@@ -35,4 +37,6 @@ public interface PeliculaService {
      * @throws ResourceNotFoundException Si la Pelicula no existe.
      */
     PeliculaOut findByID(Long idPelicula);
+
+    Optional<Imagen> recuperarImagen(Long idPelicula, TamanoImagen tamanoImagen);
 }

@@ -9,7 +9,6 @@ import com.almacen.pelicula.pelicula.repository.ActorRepository;
 import com.almacen.pelicula.pelicula.repository.DirectorRepository;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -19,15 +18,14 @@ import java.util.Set;
 /**
  * Representa el DTO para crear una Pelicula.
  *
- * @param titulo Obligatorio.
- * @param sinopsis Opcional, no puede tener mas de 255 caracteres.
- * @param precio No puede ser negativo.
- * @param fechaSalida Con formato dd-MM-yyyy
- * @param condicion Nuevo o Usado.
- * @param genero Alguno de los disponibles.
+ * @param titulo        Obligatorio.
+ * @param sinopsis      Opcional, no puede tener mas de 255 caracteres.
+ * @param precio        No puede ser negativo.
+ * @param fechaSalida   Con formato dd-MM-yyyy
+ * @param condicion     Nuevo o Usado.
+ * @param genero        Alguno de los disponibles.
  * @param idsDirectores Al menos 1 director que exista.
- * @param idsActores Al menos 1 actor que exista.
- *
+ * @param idsActores    Al menos 1 actor que exista.
  * @author Carlos Farra
  * @since Domingo 1 de Septiembre 2024
  */
@@ -38,7 +36,7 @@ public record PeliculaCreate(@NotBlank(message = "Titulo obligatorio.") String t
                              String condicion, String genero,
                              @NotEmpty(message = "Una pelicula tiene al menos 1 director.") List<Long> idsDirectores,
                              @NotEmpty(message = "Una pelicula tiene al menos 1 director.") List<Long> idsActores
-                             ) {
+) {
 
 
     /**
@@ -46,11 +44,10 @@ public record PeliculaCreate(@NotBlank(message = "Titulo obligatorio.") String t
      *
      * @param directores Un repositorio de Director.
      * @return Un objeto Pelicula.
-     *
      * @author Carlos Farra
      * @since Domingo 1 de Septiembre 2024
      */
-    public Pelicula toModel(DirectorRepository directores, ActorRepository actores){
+    public Pelicula toModel(DirectorRepository directores, ActorRepository actores) {
         System.out.println("HOLA");
         System.out.println(idsDirectores);
         var ds = directores.findAllById(idsDirectores);

@@ -34,7 +34,6 @@ class SecurityConfiguration {
 
         http
                 .authorizeHttpRequests(registry -> registry
-                        //,"/metrics/**", "/swagger-ui/**", "/api-docs/**" esto estaba en permitAll
                         .requestMatchers("/metrics/**", "/swagger-ui/**", "/api-docs/**").permitAll()
                         .anyRequest().authenticated()
                 )

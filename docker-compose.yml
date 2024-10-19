@@ -1,5 +1,6 @@
 # Definir las variables entre {} en un archivo ".env"
 services:
+
   pelicula_db:
     image: postgres
     environment:
@@ -44,6 +45,7 @@ services:
     environment:
       MINIO_ROOT_USER: ${MINIO_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_PASS}
+      MINIO_URL: http://localhost:${MINIO_BACK_PORT}
     ports:
       - "${MINIO_BACK_PORT}:9000"
       - "${MINIO_FRONT_PORT}:9001"
