@@ -1,5 +1,6 @@
 package com.almacen.pelicula.pelicula.util;
 
+import com.almacen.pelicula.pelicula.service.TamanoImagen;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
@@ -9,6 +10,10 @@ import java.util.zip.Inflater;
 
 @Component
 public class ImageUtils {
+
+    public String generarNombre(String titulo, Long id, TamanoImagen tamanoImagen) {
+        return titulo + "_" + tamanoImagen.name() + "_" + id;
+    }
 
     public byte[] comprimir(byte[] data) throws IOException {
         Deflater deflater = new Deflater();

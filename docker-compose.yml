@@ -57,3 +57,15 @@ services:
         source: ./minio/etc
         target: /etc/config.env
 
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - "${RABBITMQ_CLIENT_PORT}:5672"  # Puerto de RabbitMQ para el cliente
+      - "${RABBITMQ_INTERFACE}:15672"  # Puerto de la interfaz de gestión
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+    volumes:
+      - ./rabi:/var/lib/rabbitmq

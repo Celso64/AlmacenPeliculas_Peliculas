@@ -72,3 +72,5 @@ build/
 ./minio_data
 ./minio
 ./minio/*
+./rabit
+./rabit/*
