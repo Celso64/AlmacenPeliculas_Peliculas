@@ -2,6 +2,7 @@ package com.almacen.pelicula.pelicula.service;
 
 import com.almacen.pelicula.exception.ResourceNotFoundException;
 import com.almacen.pelicula.pelicula.dto.in.PeliculaCreate;
+import com.almacen.pelicula.pelicula.dto.in.PeliculaUpdate;
 import com.almacen.pelicula.pelicula.dto.out.PeliculaMinOut;
 import com.almacen.pelicula.pelicula.dto.out.PeliculaOut;
 import com.almacen.pelicula.pelicula.entity.Imagen;
@@ -39,4 +40,8 @@ public interface PeliculaService {
     PeliculaOut findByID(Long idPelicula);
 
     Optional<Imagen> recuperarImagen(Long idPelicula, TamanoImagen tamanoImagen);
+
+    PeliculaOut updatePelicula(Long idPelicula, PeliculaUpdate data);
+
+    void deletePelicula(Long idPelicula);
 }

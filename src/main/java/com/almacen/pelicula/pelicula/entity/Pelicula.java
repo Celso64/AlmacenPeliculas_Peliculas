@@ -1,5 +1,6 @@
 package com.almacen.pelicula.pelicula.entity;
 
+import com.almacen.pelicula.pelicula.amqp.PeliculaPublish;
 import com.almacen.pelicula.ranking.entity.Ranking;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,6 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@EntityListeners(PeliculaPublish.class)
 public class Pelicula {
 
     @Id

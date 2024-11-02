@@ -33,6 +33,17 @@ spring:
           jwk-set-uri: https://k8s-lia.unrn.edu.ar/keycloak/realms/videoclub02/protocol/openid-connect/certs
   jmx:
     enabled: true
+  rabbitmq:
+    host: localhost
+    #    host: k8s-lia.unrn.edu.ar
+    port: 30567
+    username: taller
+    password: taller.2024
+  redis:
+    host: localhost
+    port: 3310
+  cache:
+    type: redis
 
 springdoc:
   api-docs:
@@ -45,6 +56,34 @@ minio:
   bucket:
     grande: portada-grande
     pequeno: portada-pequena
+
+  #rabbit:
+  #  cola:
+  #    pelicula: peliculaQueue
+  #  exchange:
+  #    pelicula: peliculaExchange
+  #  routing-key:
+  #    pelicula: peliculaRouting
+
+rabbitmq:
+  event:
+    exchange:
+      name: exchange_videocloud02
+    movie:
+      queue:
+        name: movieQueue
+      routing:
+        key: Pelicula.#
+    actor:
+      queue:
+        name: actorQueue
+      routing:
+        key: Actor.#
+    usuario:
+      queue:
+        name: usuarioQueue
+      routing:
+        key: Usuario.#
 
 page_tam:
   pelicula: 10

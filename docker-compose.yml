@@ -69,3 +69,9 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
     volumes:
       - ./rabi:/var/lib/rabbitmq
+
+  redis:
+    container_name: peliculas-redis
+    image: redis
+    ports:
+      - "3310:6379"

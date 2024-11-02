@@ -48,15 +48,9 @@ public record PeliculaCreate(@NotBlank(message = "Titulo obligatorio.") String t
      * @since Domingo 1 de Septiembre 2024
      */
     public Pelicula toModel(DirectorRepository directores, ActorRepository actores) {
-        System.out.println("HOLA");
-        System.out.println(idsDirectores);
         var ds = directores.findAllById(idsDirectores);
-        System.out.println("P1");
         Set<Director> d = new HashSet<>(ds);
-        System.out.println("P2");
-        System.out.println(d);
         Set<Actor> a = new HashSet<>(actores.findAllById(idsActores));
-        System.out.println(a);
 
         Pelicula nuevaPelicula = new Pelicula();
 

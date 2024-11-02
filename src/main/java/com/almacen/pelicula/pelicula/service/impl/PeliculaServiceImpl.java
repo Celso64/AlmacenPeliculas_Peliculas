@@ -2,6 +2,7 @@ package com.almacen.pelicula.pelicula.service.impl;
 
 import com.almacen.pelicula.exception.ResourceNotFoundException;
 import com.almacen.pelicula.pelicula.dto.in.PeliculaCreate;
+import com.almacen.pelicula.pelicula.dto.in.PeliculaUpdate;
 import com.almacen.pelicula.pelicula.dto.out.PeliculaMinOut;
 import com.almacen.pelicula.pelicula.dto.out.PeliculaOut;
 import com.almacen.pelicula.pelicula.entity.Imagen;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -50,6 +52,7 @@ public class PeliculaServiceImpl implements PeliculaService {
     }
 
     @Override
+    @Cacheable(value = "pelicula_cache", key = "'pelicula_pag_' + #pagina")
     public Page<PeliculaMinOut> listPeliculas(Integer pagina) {
 
         Page<Pelicula> paginaPeliculas = peliculas.findAll(PageRequest.of(pagina, tamanoPagina));
@@ -75,15 +78,23 @@ public class PeliculaServiceImpl implements PeliculaService {
 
     @Override
     public Optional<Imagen> recuperarImagen(Long idPelicula, TamanoImagen tamanoImagen) {
-        log.warn("Entro en buscarImagen()");
-        log.warn("ID: {}", idPelicula);
-        log.warn("TAM: {}", tamanoImagen);
         Optional<Imagen> img = (tamanoImagen.equals(TamanoImagen.LARGE))
                 ? imagenes.findGrandePorIDPelicula(idPelicula)
                 : imagenes.findPequenaPorIDPelicula(idPelicula);
-
-        log.warn("Imagen encontrada: {}", (img.isPresent()) ? "Si" : "No");
         img.ifPresent(i -> System.out.println(i.getName()));
         return img;
+    }
+
+    @Override
+    public PeliculaOut updatePelicula(Long idPelicula, PeliculaUpdate data) {
+        var p = peliculas.findById(idPelicula).orElseThrow(() -> new ResourceNotFoundException("La pelicula no existe"));
+        data.update(p, directores, actores);
+        peliculas.save(p);
+        return PeliculaOut.fromModel(p);
+    }
+
+    @Override
+    public void deletePelicula(Long idPelicula) {
+        peliculas.deleteById(idPelicula);
     }
 }
