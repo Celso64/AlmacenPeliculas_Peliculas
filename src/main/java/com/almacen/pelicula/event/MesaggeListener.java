@@ -1,7 +1,7 @@
 package com.almacen.pelicula.event;
 
 import com.almacen.pelicula.pelicula.entity.Pelicula;
-import com.almacen.pelicula.ranking.dto.in.UsuarioCreate;
+import com.almacen.pelicula.ranking.dto.in.UsuarioRabbit;
 import com.almacen.pelicula.ranking.listener.UsuarioListener;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +16,9 @@ import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.Objects;
+
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
@@ -29,12 +32,15 @@ public class MesaggeListener {
                     value = "${rabbitmq.event.usuario.queue.name}",
                     durable = "true"
             ),
-            exchange = @Exchange(value = "${rabbitmq.event.exchange.name}", type = "topic"),
+            exchange = @Exchange(value = "${rabbitmq.event.exchange.users}", type = "topic"),
             key = "${rabbitmq.event.usuario.routing.key}"
     ))
     @Retryable(maxAttempts = 3, backoff = @Backoff(delay = 5000))
-    public void handleUsuarioEvent(Event<String, UsuarioCreate> event) {
-        usuarioListener.escuchar(event);
+    public void handleUsuarioEvent(UsuarioRabbit mensaje) throws IOException {
+        log.info("Handle Usuario");
+        log.info("Data: {}", mensaje.toString());
+        if (Objects.nonNull(mensaje.operationType()) && mensaje.operationType().equalsIgnoreCase(Event.Type.CREATE.toString()))
+            usuarioListener.escuchar(mensaje.toEvent());
     }
 
     @Recover

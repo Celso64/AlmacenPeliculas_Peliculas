@@ -1,9 +1,9 @@
 application:
   title: Almacen de Peliculas
   ms_name: Peliculas
-  version: Sprint 3
+  version: Sprint 4
   author: Carlos Farra
-  lastUpdate: Viernes 18 de Octubre 2024
+  lastUpdate: Sabado 02 de Noviembre 2024
 
 server:
   port: 8081
@@ -34,8 +34,7 @@ spring:
   jmx:
     enabled: true
   rabbitmq:
-    host: localhost
-    #    host: k8s-lia.unrn.edu.ar
+    host: k8s-lia.unrn.edu.ar
     port: 30567
     username: taller
     password: taller.2024
@@ -57,18 +56,11 @@ minio:
     grande: portada-grande
     pequeno: portada-pequena
 
-  #rabbit:
-  #  cola:
-  #    pelicula: peliculaQueue
-  #  exchange:
-  #    pelicula: peliculaExchange
-  #  routing-key:
-  #    pelicula: peliculaRouting
-
 rabbitmq:
   event:
     exchange:
       name: exchange_videocloud02
+      users: keycloaktaller
     movie:
       queue:
         name: movieQueue
@@ -81,9 +73,9 @@ rabbitmq:
         key: Actor.#
     usuario:
       queue:
-        name: usuarioQueue
+        name: videoclub02
       routing:
-        key: Usuario.#
+        key: KK.EVENT.*.videoclub02.#
 
 page_tam:
   pelicula: 10

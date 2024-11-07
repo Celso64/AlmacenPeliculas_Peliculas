@@ -31,7 +31,7 @@ public class Ranking {
     Pelicula pelicula;
 
     public String getUsername() {
-        return this.usuario.getUsername();
+        return this.usuario.getFullName();
     }
 
     public String getTituloPelicula() {
