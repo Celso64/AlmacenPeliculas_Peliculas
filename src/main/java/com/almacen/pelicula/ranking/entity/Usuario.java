@@ -36,7 +36,8 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     Set<Ranking> resenas;
 
-    public Usuario(String firstName, String lastName, String email) {
+    public Usuario(String idKeyLoack, String firstName, String lastName, String email) {
+        this.idKeyLoack = idKeyLoack;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

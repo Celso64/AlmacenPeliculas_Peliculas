@@ -57,9 +57,3 @@ services:
       - type: bind
         source: ./minio/etc
         target: /etc/config.env
-
-  redis:
-    container_name: peliculas-redis
-    image: redis
-    ports:
-      - "3310:6379"

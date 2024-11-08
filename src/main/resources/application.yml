@@ -38,11 +38,7 @@ spring:
     port: 30567
     username: taller
     password: taller.2024
-  redis:
-    host: localhost
-    port: 3310
-  cache:
-    type: redis
+
 
 springdoc:
   api-docs:

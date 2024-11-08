@@ -18,13 +18,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,13 +44,12 @@ public class PeliculaServiceImpl implements PeliculaService {
     Integer tamanoPagina;
 
     @Override
-    public PeliculaOut crearPelicula(PeliculaCreate pelicula) throws IOException {
+    public PeliculaOut crearPelicula(PeliculaCreate pelicula) {
         Pelicula p = pelicula.toModel(directores, actores);
         return PeliculaOut.fromModel(peliculas.save(p));
     }
 
     @Override
-    @Cacheable(value = "pelicula_cache", key = "'pelicula_pag_' + #pagina")
     public Page<PeliculaMinOut> listPeliculas(Integer pagina) {
 
         Page<Pelicula> paginaPeliculas = peliculas.findAll(PageRequest.of(pagina, tamanoPagina));
