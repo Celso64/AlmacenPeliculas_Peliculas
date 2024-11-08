@@ -17,7 +17,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 class SecurityConfiguration {
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
