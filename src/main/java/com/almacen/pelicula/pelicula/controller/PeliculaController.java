@@ -26,7 +26,6 @@ public class PeliculaController {
     PeliculaService peliculas;
 
     @GetMapping
-    @PreAuthorize("hasRole('read_pelicula')")
     public Map<String, Object> listarPeliculas(@RequestParam(defaultValue = "0") int pagina) {
         Page<PeliculaMinOut> p = peliculas.listPeliculas(pagina);
 
@@ -40,7 +39,6 @@ public class PeliculaController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('read_pelicula')")
     public ResponseEntity<PeliculaOut> findByID(@PathVariable("id") Long id) {
         return ResponseEntity.ok(peliculas.findByID(id));
     }
