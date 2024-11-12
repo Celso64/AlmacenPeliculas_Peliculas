@@ -1,12 +1,14 @@
 package com.almacen.pelicula.pelicula.dto.in;
 
+import com.almacen.pelicula.exception.ResourceNotFoundException;
 import com.almacen.pelicula.pelicula.dto.util.CondicionPeliculaMapper;
-import com.almacen.pelicula.pelicula.dto.util.GeneroPeliculaMapper;
 import com.almacen.pelicula.pelicula.entity.Actor;
 import com.almacen.pelicula.pelicula.entity.Director;
+import com.almacen.pelicula.pelicula.entity.Genero;
 import com.almacen.pelicula.pelicula.entity.Pelicula;
 import com.almacen.pelicula.pelicula.repository.ActorRepository;
 import com.almacen.pelicula.pelicula.repository.DirectorRepository;
+import com.almacen.pelicula.pelicula.repository.GeneroRepository;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 
@@ -33,7 +35,7 @@ public record PeliculaCreate(@NotBlank(message = "Titulo obligatorio.") String t
                              @Size(max = 255, message = "Sinopsis demasiado larga.") String sinopsis,
                              @DecimalMin(value = "0", message = "No se permite precio negativo.") Double precio,
                              @NotNull(message = "Fecha de Salida obligatoria.") @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy") LocalDate fechaSalida,
-                             String condicion, String genero,
+                             String condicion, Long idGenero,
                              @NotEmpty(message = "Una pelicula tiene al menos 1 director.") List<Long> idsDirectores,
                              @NotEmpty(message = "Una pelicula tiene al menos 1 director.") List<Long> idsActores
 ) {
@@ -47,10 +49,11 @@ public record PeliculaCreate(@NotBlank(message = "Titulo obligatorio.") String t
      * @author Carlos Farra
      * @since Domingo 1 de Septiembre 2024
      */
-    public Pelicula toModel(DirectorRepository directores, ActorRepository actores) {
+    public Pelicula toModel(DirectorRepository directores, ActorRepository actores, GeneroRepository generos) {
         var ds = directores.findAllById(idsDirectores);
         Set<Director> d = new HashSet<>(ds);
         Set<Actor> a = new HashSet<>(actores.findAllById(idsActores));
+        Genero g = generos.findById(idGenero).orElseThrow(() -> new ResourceNotFoundException("El genero no existe."));
 
         Pelicula nuevaPelicula = new Pelicula();
 
@@ -59,7 +62,7 @@ public record PeliculaCreate(@NotBlank(message = "Titulo obligatorio.") String t
         nuevaPelicula.setPrecio(precio);
         nuevaPelicula.setFechaSalida(fechaSalida);
         nuevaPelicula.setCondicion(CondicionPeliculaMapper.map(condicion));
-        nuevaPelicula.setGenero(GeneroPeliculaMapper.map(genero));
+        nuevaPelicula.setGenero(g);
         nuevaPelicula.setDirectores(d);
         nuevaPelicula.setActores(a);
 

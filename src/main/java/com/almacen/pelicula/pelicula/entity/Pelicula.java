@@ -32,8 +32,9 @@ public class Pelicula {
     @Enumerated(EnumType.ORDINAL)
     CondicionPelicula condicion;
 
-    @Enumerated(EnumType.STRING)
-    GeneroPelicula genero;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_genero")
+    Genero genero;
 
 
     @OneToOne(cascade = CascadeType.ALL)

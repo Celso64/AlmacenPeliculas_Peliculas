@@ -7,10 +7,7 @@ import com.almacen.pelicula.pelicula.dto.out.PeliculaMinOut;
 import com.almacen.pelicula.pelicula.dto.out.PeliculaOut;
 import com.almacen.pelicula.pelicula.entity.Imagen;
 import com.almacen.pelicula.pelicula.entity.Pelicula;
-import com.almacen.pelicula.pelicula.repository.ActorRepository;
-import com.almacen.pelicula.pelicula.repository.DirectorRepository;
-import com.almacen.pelicula.pelicula.repository.ImagenRepository;
-import com.almacen.pelicula.pelicula.repository.PeliculaRepository;
+import com.almacen.pelicula.pelicula.repository.*;
 import com.almacen.pelicula.pelicula.service.PeliculaService;
 import com.almacen.pelicula.pelicula.service.TamanoImagen;
 import lombok.AccessLevel;
@@ -40,12 +37,14 @@ public class PeliculaServiceImpl implements PeliculaService {
 
     final ImagenRepository imagenes;
 
+    final GeneroRepository generos;
+
     @Value("${page_tam.pelicula}")
     Integer tamanoPagina;
 
     @Override
     public PeliculaOut crearPelicula(PeliculaCreate pelicula) {
-        Pelicula p = pelicula.toModel(directores, actores);
+        Pelicula p = pelicula.toModel(directores, actores, generos);
         return PeliculaOut.fromModel(peliculas.save(p));
     }
 

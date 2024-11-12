@@ -33,7 +33,7 @@ class SecurityConfiguration {
         http
                 .authorizeHttpRequests(registry -> registry
                         .requestMatchers("/metrics/**", "/swagger-ui/**", "/api-docs/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/pelicula", "pelicula/*").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/pelicula", "pelicula/*", "genero").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2Configurer -> oauth2Configurer.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter())));
