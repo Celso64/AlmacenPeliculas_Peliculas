@@ -29,8 +29,7 @@ public class GeneroController {
     @PostMapping
     @PreAuthorize("hasRole('write_pelicula')")
     public ResponseEntity<Genero> agregarGenero(@Valid @RequestBody GeneroCreate genero) {
-        var body = generoService.agregarGenero(genero);
-        return ResponseEntity.ok(body);
+        return ResponseEntity.ok(generoService.agregarGenero(genero));
     }
 
 }
