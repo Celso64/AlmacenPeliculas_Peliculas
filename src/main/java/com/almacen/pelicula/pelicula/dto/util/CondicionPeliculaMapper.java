@@ -12,8 +12,7 @@ public abstract class CondicionPeliculaMapper {
     );
 
 
-
-    public static CondicionPelicula map(String c){
-        return condiciones.get(c);
+    public static CondicionPelicula map(String c) {
+        return condiciones.get(c.toLowerCase());
     }
 }
