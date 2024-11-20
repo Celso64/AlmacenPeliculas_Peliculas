@@ -6,11 +6,13 @@ import com.almacen.pelicula.pelicula.dto.out.PeliculaOut;
 import com.almacen.pelicula.pelicula.service.PeliculaService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -19,7 +21,9 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/pelicula")
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
+@Validated
 public class PeliculaController {
 
     @Autowired

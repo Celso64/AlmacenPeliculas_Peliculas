@@ -11,8 +11,8 @@ import java.util.zip.Inflater;
 @Component
 public class ImageUtils {
 
-    public String generarNombre(String titulo, Long id, TamanoImagen tamanoImagen) {
-        return titulo + "_" + tamanoImagen.name() + "_" + id;
+    public String generarNombre(Long id, TamanoImagen tamanoImagen) {
+        return id + "_" + tamanoImagen.name();
     }
 
     public byte[] comprimir(byte[] data) throws IOException {

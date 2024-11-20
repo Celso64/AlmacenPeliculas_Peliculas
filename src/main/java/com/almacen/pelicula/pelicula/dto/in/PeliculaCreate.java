@@ -40,8 +40,7 @@ public record PeliculaCreate(@NotBlank(message = "Titulo obligatorio.") String t
                              @ValidCondicion String condicion,
                              @NotNull(message = "ID de Genero obligatorio.") Long idGenero,
                              @NotEmpty(message = "Una pelicula tiene al menos 1 director.") List<Long> idsDirectores,
-                             @NotEmpty(message = "Una pelicula tiene al menos 1 director.") List<Long> idsActores
-) {
+                             @NotEmpty(message = "Una pelicula tiene al menos 1 director.") List<Long> idsActores) {
 
 
     /**

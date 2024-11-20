@@ -30,13 +30,9 @@ import java.util.Optional;
 public class PeliculaServiceImpl implements PeliculaService {
 
     final PeliculaRepository peliculas;
-
     final DirectorRepository directores;
-
     final ActorRepository actores;
-
     final ImagenRepository imagenes;
-
     final GeneroRepository generos;
 
     @Value("${page_tam.pelicula}")
@@ -53,8 +49,10 @@ public class PeliculaServiceImpl implements PeliculaService {
 
         Page<Pelicula> paginaPeliculas = peliculas.findAll(PageRequest.of(pagina, tamanoPagina));
 
-        paginaPeliculas.getContent().forEach(p -> p.getDirectores().forEach(Object::toString));
-        paginaPeliculas.getContent().forEach(p -> System.out.println("Actores (SERVICE): " + p.getActores().size()));
+        paginaPeliculas.getContent().forEach(p -> {
+            p.getDirectores().forEach(Object::toString);
+            p.getActores().forEach(Object::toString);
+        });
 
         List<PeliculaMinOut> peliculasOut = paginaPeliculas
                 .getContent()

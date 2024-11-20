@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -20,4 +21,10 @@ public class Director {
 
     @ManyToMany(mappedBy = "directores")
     private Set<Pelicula> peliculas;
+
+    public Map<String, Object> toMap() {
+        return Map.of("id", id,
+                "nombre", nombre,
+                "apellido", apellido);
+    }
 }

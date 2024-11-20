@@ -33,9 +33,7 @@ import java.security.NoSuchAlgorithmException;
 public class ImagenController {
 
     ImagenService imagenes;
-
     PeliculaService peliculas;
-
     ImageUtils imageUtils;
 
     @GetMapping("/{idPelicula}")
@@ -57,8 +55,8 @@ public class ImagenController {
 
         var p = peliculas.findByID(idPelicula);
 
-        imagen.imagenPequena().ifPresent(pequena -> imagenes.guardarImagen(pequena, imageUtils.generarNombre(p.titulo(), p.id(), TamanoImagen.SMALL), TamanoImagen.SMALL));
-        imagen.imagenGrande().ifPresent(grande -> imagenes.guardarImagen(grande, imageUtils.generarNombre(p.titulo(), p.id(), TamanoImagen.LARGE), TamanoImagen.LARGE));
+        imagen.imagenPequena().ifPresent(pequena -> imagenes.guardarImagen(pequena, imageUtils.generarNombre(p.id(), TamanoImagen.SMALL), TamanoImagen.SMALL));
+        imagen.imagenGrande().ifPresent(grande -> imagenes.guardarImagen(grande, imageUtils.generarNombre(p.id(), TamanoImagen.LARGE), TamanoImagen.LARGE));
 
         return ResponseEntity.ok().build();
     }
