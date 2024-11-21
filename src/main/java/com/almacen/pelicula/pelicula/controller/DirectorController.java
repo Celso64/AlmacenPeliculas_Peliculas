@@ -5,7 +5,6 @@ import com.almacen.pelicula.pelicula.dto.in.DirectorCreate;
 import com.almacen.pelicula.pelicula.dto.in.DirectorUpdate;
 import com.almacen.pelicula.pelicula.dto.out.DirectorOut;
 import com.almacen.pelicula.pelicula.service.DirectorService;
-import com.almacen.pelicula.pelicula.service.impl.DirectorServiceImpl;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/director")
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Validated
 public class DirectorController {
 
     @Autowired
