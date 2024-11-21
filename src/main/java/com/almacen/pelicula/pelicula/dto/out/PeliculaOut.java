@@ -4,10 +4,9 @@ import com.almacen.pelicula.pelicula.entity.Pelicula;
 
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Map;
 
 public record PeliculaOut(Long id, String titulo, String sinopsis, String precio, String condicion,
-                          Map<String, Object> genero,
+                          GeneroOut genero,
                           List<DirectorOut> directores, List<ActorOut> actores, String imagenPequena,
                           String imagenGrande) {
 
@@ -17,7 +16,7 @@ public record PeliculaOut(Long id, String titulo, String sinopsis, String precio
 
         String precio = formatoDecimal.format(p.getPrecio());
         String condicion = p.getCondicion().toString();
-        Map<String, Object> genero = p.getGenero().toMap();
+        GeneroOut genero = GeneroOut.fromModel(p.getGenero());
 
         var directores = p.getDirectores().stream()
                 .map(DirectorOut::fromModel)
@@ -34,7 +33,7 @@ public record PeliculaOut(Long id, String titulo, String sinopsis, String precio
 
         String precio = formatoDecimal.format(p.getPrecio());
         String condicion = p.getCondicion().toString();
-        var genero = p.getGenero().toMap();
+        GeneroOut genero = GeneroOut.fromModel(p.getGenero());
 
         var directores = p.getDirectores().stream()
                 .map(DirectorOut::fromModel)

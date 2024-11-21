@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -17,10 +16,4 @@ public class Genero {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
-
-
-    public Map<String, Object> toMap() {
-        return Map.of("id", id,
-                "nombre", nombre);
-    }
 }

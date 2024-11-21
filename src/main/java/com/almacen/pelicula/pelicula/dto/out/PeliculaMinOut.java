@@ -1,16 +1,14 @@
 package com.almacen.pelicula.pelicula.dto.out;
 
 import com.almacen.pelicula.pelicula.constant.Fecha;
-import com.almacen.pelicula.pelicula.entity.Genero;
 import com.almacen.pelicula.pelicula.entity.Pelicula;
 
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public record PeliculaMinOut(Long id, String titulo, String sinopsis, String fechaSalida, String precio,
-                             String condicion, Map<String, Object> genero, List<DirectorOut> directores,
+                             String condicion, GeneroOut genero, List<DirectorOut> directores,
                              List<ActorOut> actores, String imagenPequena) {
 
     private static final DecimalFormat formatoDecimal = new DecimalFormat("$#.##");
@@ -30,9 +28,9 @@ public record PeliculaMinOut(Long id, String titulo, String sinopsis, String fec
 
         String img = (Objects.isNull(p.getImagenPequena())) ? "" : p.getImagenPequena().getName();
 
-        Genero g = p.getGenero();
+        GeneroOut genero = GeneroOut.fromModel(p.getGenero());
 
-        return new PeliculaMinOut(p.getId(), p.getTitulo(), p.getSinopsis(), fecha, precio, p.getCondicion().toString(), g.toMap(), directores, actores, img);
+        return new PeliculaMinOut(p.getId(), p.getTitulo(), p.getSinopsis(), fecha, precio, p.getCondicion().toString(), genero, directores, actores, img);
     }
 
 }
