@@ -1,14 +1,15 @@
 package com.almacen.pelicula.pelicula.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.Map;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Director {
     @Id
@@ -22,9 +23,4 @@ public class Director {
     @ManyToMany(mappedBy = "directores")
     private Set<Pelicula> peliculas;
 
-    public Map<String, Object> toMap() {
-        return Map.of("id", id,
-                "nombre", nombre,
-                "apellido", apellido);
-    }
 }

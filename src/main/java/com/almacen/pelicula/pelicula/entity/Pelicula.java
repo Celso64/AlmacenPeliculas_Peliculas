@@ -7,10 +7,12 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -64,5 +66,13 @@ public class Pelicula {
 
     @OneToMany(mappedBy = "pelicula", cascade = CascadeType.ALL, orphanRemoval = true)
     Set<Ranking> rankings;
+
+    public String getImagenPequenaName() {
+        return Objects.isNull(imagenPequena) ? null : imagenPequena.getName();
+    }
+
+    public String getImagenGrandeName() {
+        return Objects.isNull(imagenGrande) ? null : imagenGrande.getName();
+    }
 
 }

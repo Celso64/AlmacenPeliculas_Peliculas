@@ -1,13 +1,15 @@
 package com.almacen.pelicula.pelicula.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Actor {
     @Id
@@ -20,4 +22,5 @@ public class Actor {
 
     @ManyToMany(mappedBy = "actores")
     private Set<Pelicula> peliculas;
+
 }

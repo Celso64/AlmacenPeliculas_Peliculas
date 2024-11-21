@@ -4,8 +4,10 @@ import com.almacen.pelicula.pelicula.entity.Pelicula;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Map;
 
-public record PeliculaOut(Long id, String titulo, String sinopsis, String precio, String condicion, String genero,
+public record PeliculaOut(Long id, String titulo, String sinopsis, String precio, String condicion,
+                          Map<String, Object> genero,
                           List<DirectorOut> directores, List<ActorOut> actores, String imagenPequena,
                           String imagenGrande) {
 
@@ -15,7 +17,7 @@ public record PeliculaOut(Long id, String titulo, String sinopsis, String precio
 
         String precio = formatoDecimal.format(p.getPrecio());
         String condicion = p.getCondicion().toString();
-        String genero = p.getGenero().toString();
+        Map<String, Object> genero = p.getGenero().toMap();
 
         var directores = p.getDirectores().stream()
                 .map(DirectorOut::fromModel)
@@ -25,14 +27,14 @@ public record PeliculaOut(Long id, String titulo, String sinopsis, String precio
                 .map(ActorOut::fromModel)
                 .toList();
 
-        return new PeliculaOut(p.getId(), p.getTitulo(), p.getSinopsis(), precio, condicion, genero, directores, actores, p.getImagenPequena().getName(), p.getImagenGrande().getName());
+        return new PeliculaOut(p.getId(), p.getTitulo(), p.getSinopsis(), precio, condicion, genero, directores, actores, p.getImagenPequenaName(), p.getImagenGrandeName());
     }
 
     public static PeliculaOut fromModel(Pelicula p, String imagenPequena, String imagenGrande) {
 
         String precio = formatoDecimal.format(p.getPrecio());
         String condicion = p.getCondicion().toString();
-        String genero = p.getGenero().toString();
+        var genero = p.getGenero().toMap();
 
         var directores = p.getDirectores().stream()
                 .map(DirectorOut::fromModel)

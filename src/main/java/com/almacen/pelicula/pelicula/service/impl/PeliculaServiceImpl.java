@@ -67,6 +67,7 @@ public class PeliculaServiceImpl implements PeliculaService {
     public PeliculaOut findByID(Long idPelicula) {
         Pelicula p = peliculas.findById(idPelicula).orElseThrow(() -> new ResourceNotFoundException("La pelicula no existe."));
         p.getActores().forEach(Object::toString);
+        p.getDirectores().forEach(Object::toString);
         return PeliculaOut.fromModel(p);
     }
 
