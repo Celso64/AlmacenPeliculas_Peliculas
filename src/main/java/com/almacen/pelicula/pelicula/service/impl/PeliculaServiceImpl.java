@@ -39,10 +39,18 @@ public class PeliculaServiceImpl implements PeliculaService {
 
     @Override
     public PeliculaOut crearPelicula(PeliculaCreate pelicula) {
-        List<Director> director = directores.findAllById(pelicula.idsDirectores());
-        List<Actor> actor = actores.findAllById(pelicula.idsActores());
+        List<Director> directoresPersistentes = pelicula.idsDirectores().stream()
+                .map(id -> directores.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Director con ID " + id + " no encontrado.")))
+                .toList();
+
+        List<Actor> actoresPersistentes = pelicula.idsActores().stream()
+                .map(id -> actores.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Actor con ID " + id + " no encontrado.")))
+                .toList();
+
         Genero genero = generos.findById(pelicula.idGenero()).orElseThrow(() -> new ResourceNotFoundException("El genero " + pelicula.idGenero() + " no existe."));
-        Pelicula p = pelicula.toModel(director, actor, genero);
+        Pelicula p = pelicula.toModel(directoresPersistentes, actoresPersistentes, genero);
         return PeliculaOut.fromModel(peliculas.save(p));
     }
 
