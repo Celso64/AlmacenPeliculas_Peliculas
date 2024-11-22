@@ -20,7 +20,7 @@ public class Actor {
 
     private String apellido;
 
-    @ManyToMany(mappedBy = "actores")
+    @ManyToMany(mappedBy = "actores", fetch = FetchType.LAZY)
     private Set<Pelicula> peliculas;
 
 }

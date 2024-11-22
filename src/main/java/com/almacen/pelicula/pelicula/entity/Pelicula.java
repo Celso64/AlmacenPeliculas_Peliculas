@@ -34,7 +34,7 @@ public class Pelicula {
     @Enumerated(EnumType.ORDINAL)
     CondicionPelicula condicion;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_genero")
     Genero genero;
 
@@ -48,7 +48,7 @@ public class Pelicula {
     Imagen imagenGrande;
 
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "pelicula_director",
             joinColumns = @JoinColumn(name = "pelicula_id"),
@@ -56,7 +56,7 @@ public class Pelicula {
     )
     Set<Director> directores;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "pelicula_actor",
             joinColumns = @JoinColumn(name = "pelicula_id"),

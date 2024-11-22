@@ -20,7 +20,7 @@ public class Director {
 
     private String apellido;
 
-    @ManyToMany(mappedBy = "directores")
+    @ManyToMany(mappedBy = "directores", fetch = FetchType.LAZY)
     private Set<Pelicula> peliculas;
 
 }
