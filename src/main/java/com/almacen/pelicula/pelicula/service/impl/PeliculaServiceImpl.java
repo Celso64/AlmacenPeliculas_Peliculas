@@ -61,7 +61,8 @@ public class PeliculaServiceImpl implements PeliculaService {
         p.setDirectores(new HashSet<>(directoresPersistentes));
         p.setGenero(genero);
 
-        return PeliculaOut.fromModel(peliculas.save(p));
+        Pelicula pr = peliculas.save(p);
+        return PeliculaOut.fromModel(pr);
     }
 
     @Override
