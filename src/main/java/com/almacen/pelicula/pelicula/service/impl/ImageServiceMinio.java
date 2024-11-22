@@ -41,11 +41,8 @@ public class ImageServiceMinio implements ImagenService {
 
     final PeliculaRepository peliculaRepository;
 
-    @Value("${minio.bucket.grande}")
-    String bucketGrande;
-
-    @Value("${minio.bucket.pequeno}")
-    String bucketPequeno;
+    @Value("${minio.bucket}")
+    String bucket;
 
     @SneakyThrows
     @Override
@@ -55,7 +52,6 @@ public class ImageServiceMinio implements ImagenService {
         String nombre = imageUtils.generarNombre(idPelicula, tamano);
 
         Objects.requireNonNull(imagen.getOriginalFilename());
-        String bucket = getBucket(tamano);
 
         crearBucketSiNoExiste(bucket);
 
@@ -79,31 +75,10 @@ public class ImageServiceMinio implements ImagenService {
         }
         peliculaRepository.save(pelicula);
     }
-// Esto no se va a usar porque probaremos usar querys directas sobre MINIO
-//    @Override
-//    public ImagenOut buscarImagen(Imagen imagen) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
-//        log.warn("STEP 0 - Entro en buscarImagen()");
-//        String bucket = getBucket(imagen.getTamano());
-//        log.warn("STEP 1 - Antes de MINIO");
-//        InputStream is = minioClient.getObject(
-//                GetObjectArgs
-//                        .builder()
-//                        .bucket(bucket)
-//                        .object(imagen.getName())
-//                        .build()
-//        );
-//        log.warn("STEP 2 - After MINIO");
-//        log.info("Imagen {} - Data {}", imagen.getName(), (Objects.isNull(is) ? "VACIO" : "EXISTE"));
-//        return new ImagenOut(imagen, is.readAllBytes());
-//    }
 
     private void crearBucketSiNoExiste(String nombreBucket) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(nombreBucket).build())) {
             minioClient.makeBucket(MakeBucketArgs.builder().bucket(nombreBucket).build());
         }
-    }
-
-    private String getBucket(TamanoImagen tamanoImagen) {
-        return (tamanoImagen.equals(TamanoImagen.LARGE)) ? bucketGrande : bucketPequeno;
     }
 }

@@ -28,14 +28,19 @@ public class UsuarioListener implements Listener<String, UsuarioCreate> {
         data.setIdKeyLoack(evento.getKey());
 
         log.info("Usuario por crearse...");
-        usuarioRepository.save(data);
-        log.info("CREATE Usuario {} FROM rabbitmq", data.getId());
+        if (!usuarioRepository.existsByIdKeyLoack(data.getIdKeyLoack())) {
+            usuarioRepository.save(data);
+            log.info("CREATE Usuario {} FROM rabbitmq", data.getId());
+        } else {
+            log.info("Ya existia Usuario {} en la DB, no se agrego nada.", data.getIdKeyLoack());
+        }
+
     }
 
     @Override
     public void delete(Event<String, UsuarioDelete> evento) {
         Optional<Usuario> user = usuarioRepository.findOneByIdKeyLoack(evento.getData().clientId());
-        user.ifPresent(u -> usuarioRepository.deleteById(u.getId()));
+        user.ifPresent(usuario -> usuarioRepository.deleteById(usuario.getId()));
         if (user.isEmpty()) log.info("Se intento borrar a {} pero no existe en la DB", evento.getData().clientId());
     }
 }

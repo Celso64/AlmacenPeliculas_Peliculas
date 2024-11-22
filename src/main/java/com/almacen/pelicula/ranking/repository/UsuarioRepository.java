@@ -10,4 +10,7 @@ import java.util.Optional;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     Optional<Usuario> findOneByIdKeyLoack(String idKeyLoack);
+
+    boolean existsByIdKeyLoack(String idKeyLoack);
+
 }

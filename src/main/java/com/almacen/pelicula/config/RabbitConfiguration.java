@@ -15,12 +15,11 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 public class RabbitConfiguration {
 
-    @Value("${rabbitmq.event.exchange.name}")
+    @Value("${rabbitmq.event.exchange.eventos}")
     String eventExchange;
 
 
     private String exchangeName() {
-        log.info("EXCHANGE: {}", eventExchange);
         return eventExchange;
     }
 

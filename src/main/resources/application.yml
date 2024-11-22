@@ -1,43 +1,42 @@
 application:
   title: Almacen de Peliculas
   ms_name: Peliculas
-  version: Sprint 4
+  version: Sprint 5
   author: Carlos Farra
-  lastUpdate: Sabado 02 de Noviembre 2024
+  lastUpdate: Sabado 21 de Noviembre 2024
 
 server:
-  port: 8081
+  port: ${PELICULAS_PORT}
 
 spring:
   application:
     name: pelicula
+  config:
+    import: optional:file:.env[.properties]
   datasource:
-    url: jdbc:postgresql://${spring.datasource.host}:${spring.datasource.port}/${spring.datasource.db-name}
-    username: user
-    password: "1111"
-    host: localhost
-    port: 5002
-    db-name: pelicula_db
+    url: jdbc:postgresql://${PELICULAS_DB_HOST}:${PELICULAS_DB_PORT}/${PELICULAS_DB_SCHEME}
+    username: ${PELICULAS_DB_USER}
+    password: ${PELICULAS_DB_PASS}
     hikari:
       maximum-pool-size: 10
       minimum-idle: 5
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
   security:
     oauth2:
       resource-server:
         jwt:
-          issuer-uri: https://k8s-lia.unrn.edu.ar/keycloak/realms/videoclub02
-          jwk-set-uri: https://k8s-lia.unrn.edu.ar/keycloak/realms/videoclub02/protocol/openid-connect/certs
+          issuer-uri: ${KEYCLOAK_ISSUER_URI}
+          jwk-set-uri: ${KEYCLOAK_JWK_URI}
   jmx:
     enabled: true
   rabbitmq:
-    host: k8s-lia.unrn.edu.ar
-    port: 30567
-    username: taller
-    password: taller.2024
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASS}
 
 
 springdoc:
@@ -45,28 +44,21 @@ springdoc:
     path: /api-docs
 
 minio:
-  endpoint: http://localhost:9000
-  user: admin
-  pass: 12345678
-  bucket:
-    grande: portada-grande
-    pequeno: portada-pequena
+  endpoint: ${MINIO_URL}
+  user: ${MINIO_USER}
+  pass: ${MINIO_PASS}
+  bucket: ${MINIO_BUCKET}
 
 rabbitmq:
   event:
     exchange:
-      name: exchange_videocloud02
+      eventos: exchange_videocloud02
       users: keycloaktaller
     movie:
       queue:
         name: movieQueue
       routing:
         key: Pelicula.#
-    actor:
-      queue:
-        name: actorQueue
-      routing:
-        key: Actor.#
     usuario:
       queue:
         name: videoclub02
