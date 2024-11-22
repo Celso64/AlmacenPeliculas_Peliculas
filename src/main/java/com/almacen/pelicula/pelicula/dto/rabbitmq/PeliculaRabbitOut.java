@@ -5,7 +5,8 @@ import com.almacen.pelicula.pelicula.entity.Pelicula;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public record PeliculaRabbitOut(Long id, String titulo, Double precio, Set<String> actores, Set<String> directores) {
+public record PeliculaRabbitOut(Long idPelicula, String titulo, Double precio, Set<String> actores,
+                                Set<String> directores) {
 
     private static final String CLASS_NAME = "Pelicula";
 
