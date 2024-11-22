@@ -19,6 +19,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +34,9 @@ public class PeliculaServiceImpl implements PeliculaService {
     final ActorRepository actores;
     final ImagenRepository imagenes;
     final GeneroRepository generos;
+
+//    @PersistenceContext
+//    EntityManager entityManager;
 
     @Value("${page_tam.pelicula}")
     Integer tamanoPagina;
@@ -49,8 +53,14 @@ public class PeliculaServiceImpl implements PeliculaService {
                         .orElseThrow(() -> new ResourceNotFoundException("Actor con ID " + id + " no encontrado.")))
                 .toList();
 
+
         Genero genero = generos.findById(pelicula.idGenero()).orElseThrow(() -> new ResourceNotFoundException("El genero " + pelicula.idGenero() + " no existe."));
         Pelicula p = pelicula.toModel(directoresPersistentes, actoresPersistentes, genero);
+
+        p.setActores(new HashSet<>(actoresPersistentes));
+        p.setDirectores(new HashSet<>(directoresPersistentes));
+        p.setGenero(genero);
+
         return PeliculaOut.fromModel(peliculas.save(p));
     }
 

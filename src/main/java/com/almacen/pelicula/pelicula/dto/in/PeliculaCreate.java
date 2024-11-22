@@ -1,6 +1,5 @@
 package com.almacen.pelicula.pelicula.dto.in;
 
-import com.almacen.pelicula.pelicula.dto.util.CondicionPeliculaMapper;
 import com.almacen.pelicula.pelicula.dto.validation.ValidCondicion;
 import com.almacen.pelicula.pelicula.entity.Actor;
 import com.almacen.pelicula.pelicula.entity.Director;
@@ -10,7 +9,6 @@ import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -56,10 +54,10 @@ public record PeliculaCreate(@NotBlank(message = "Titulo obligatorio.") String t
         nuevaPelicula.setSinopsis(sinopsis);
         nuevaPelicula.setPrecio(precio);
         nuevaPelicula.setFechaSalida(LocalDate.parse(fechaSalida, formato));
-        nuevaPelicula.setCondicion(CondicionPeliculaMapper.map(condicion));
-        nuevaPelicula.setGenero(generos);
-        nuevaPelicula.setDirectores(new HashSet<>(directores));
-        nuevaPelicula.setActores(new HashSet<>(actores));
+//        nuevaPelicula.setCondicion(CondicionPeliculaMapper.map(condicion));
+//        nuevaPelicula.setGenero(generos);
+//        nuevaPelicula.setDirectores(new HashSet<>(directores));
+//        nuevaPelicula.setActores(new HashSet<>(actores));
 
         return nuevaPelicula;
     }
