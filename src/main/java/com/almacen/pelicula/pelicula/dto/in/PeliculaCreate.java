@@ -1,22 +1,17 @@
 package com.almacen.pelicula.pelicula.dto.in;
 
-import com.almacen.pelicula.exception.ResourceNotFoundException;
 import com.almacen.pelicula.pelicula.dto.util.CondicionPeliculaMapper;
 import com.almacen.pelicula.pelicula.dto.validation.ValidCondicion;
 import com.almacen.pelicula.pelicula.entity.Actor;
 import com.almacen.pelicula.pelicula.entity.Director;
 import com.almacen.pelicula.pelicula.entity.Genero;
 import com.almacen.pelicula.pelicula.entity.Pelicula;
-import com.almacen.pelicula.pelicula.repository.ActorRepository;
-import com.almacen.pelicula.pelicula.repository.DirectorRepository;
-import com.almacen.pelicula.pelicula.repository.GeneroRepository;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Representa el DTO para crear una Pelicula.
@@ -53,12 +48,7 @@ public record PeliculaCreate(@NotBlank(message = "Titulo obligatorio.") String t
      * @author Carlos Farra
      * @since Jueves 14 de noviembre 2024
      */
-    public Pelicula toModel(DirectorRepository directores, ActorRepository actores, GeneroRepository generos) {
-        var ds = directores.findAllById(idsDirectores);
-        Set<Director> d = new HashSet<>(ds);
-        Set<Actor> a = new HashSet<>(actores.findAllById(idsActores));
-        Genero g = generos.findById(idGenero).orElseThrow(() -> new ResourceNotFoundException("El genero no existe."));
-
+    public Pelicula toModel(List<Director> directores, List<Actor> actores, Genero generos) {
         Pelicula nuevaPelicula = new Pelicula();
 
         nuevaPelicula.setTitulo(titulo);
@@ -66,9 +56,9 @@ public record PeliculaCreate(@NotBlank(message = "Titulo obligatorio.") String t
         nuevaPelicula.setPrecio(precio);
         nuevaPelicula.setFechaSalida(fechaSalida);
         nuevaPelicula.setCondicion(CondicionPeliculaMapper.map(condicion));
-        nuevaPelicula.setGenero(g);
-        nuevaPelicula.setDirectores(d);
-        nuevaPelicula.setActores(a);
+        nuevaPelicula.setGenero(generos);
+        nuevaPelicula.setDirectores(new HashSet<>(directores));
+        nuevaPelicula.setActores(new HashSet<>(actores));
 
         return nuevaPelicula;
     }

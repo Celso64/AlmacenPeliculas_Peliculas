@@ -5,8 +5,7 @@ import com.almacen.pelicula.pelicula.dto.in.PeliculaCreate;
 import com.almacen.pelicula.pelicula.dto.in.PeliculaUpdate;
 import com.almacen.pelicula.pelicula.dto.out.PeliculaMinOut;
 import com.almacen.pelicula.pelicula.dto.out.PeliculaOut;
-import com.almacen.pelicula.pelicula.entity.Imagen;
-import com.almacen.pelicula.pelicula.entity.Pelicula;
+import com.almacen.pelicula.pelicula.entity.*;
 import com.almacen.pelicula.pelicula.repository.*;
 import com.almacen.pelicula.pelicula.service.PeliculaService;
 import com.almacen.pelicula.pelicula.service.TamanoImagen;
@@ -40,7 +39,10 @@ public class PeliculaServiceImpl implements PeliculaService {
 
     @Override
     public PeliculaOut crearPelicula(PeliculaCreate pelicula) {
-        Pelicula p = pelicula.toModel(directores, actores, generos);
+        List<Director> director = directores.findAllById(pelicula.idsDirectores());
+        List<Actor> actor = actores.findAllById(pelicula.idsActores());
+        Genero genero = generos.findById(pelicula.idGenero()).orElseThrow(() -> new ResourceNotFoundException("El genero " + pelicula.idGenero() + " no existe."));
+        Pelicula p = pelicula.toModel(director, actor, genero);
         return PeliculaOut.fromModel(peliculas.save(p));
     }
 
