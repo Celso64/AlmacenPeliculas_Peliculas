@@ -6,10 +6,10 @@ import com.almacen.pelicula.pelicula.entity.Actor;
 import com.almacen.pelicula.pelicula.entity.Director;
 import com.almacen.pelicula.pelicula.entity.Genero;
 import com.almacen.pelicula.pelicula.entity.Pelicula;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
 
@@ -31,12 +31,13 @@ import java.util.List;
 public record PeliculaCreate(@NotBlank(message = "Titulo obligatorio.") String titulo,
                              @Size(max = 255, message = "Sinopsis demasiado larga.") String sinopsis,
                              @DecimalMin(value = "0", message = "No se permite precio negativo.") Double precio,
-                             @NotNull(message = "Fecha de Salida obligatoria.") @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy") LocalDate fechaSalida,
+                             @NotNull(message = "Fecha de Salida obligatoria.") String fechaSalida,
                              @ValidCondicion String condicion,
                              @NotNull(message = "ID de Genero obligatorio.") Long idGenero,
                              @NotEmpty(message = "Una pelicula tiene al menos 1 director.") List<Long> idsDirectores,
                              @NotEmpty(message = "Una pelicula tiene al menos 1 director.") List<Long> idsActores) {
 
+    private static final DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     /**
      * Convierte el DTO en un objeto Pelicula.
@@ -54,7 +55,7 @@ public record PeliculaCreate(@NotBlank(message = "Titulo obligatorio.") String t
         nuevaPelicula.setTitulo(titulo);
         nuevaPelicula.setSinopsis(sinopsis);
         nuevaPelicula.setPrecio(precio);
-        nuevaPelicula.setFechaSalida(fechaSalida);
+        nuevaPelicula.setFechaSalida(LocalDate.parse(fechaSalida, formato));
         nuevaPelicula.setCondicion(CondicionPeliculaMapper.map(condicion));
         nuevaPelicula.setGenero(generos);
         nuevaPelicula.setDirectores(new HashSet<>(directores));
